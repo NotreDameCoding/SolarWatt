@@ -4,9 +4,6 @@ on:
   push:
     branches: [main]
   pull_request:
-  schedule:
-    # Rebuild daily so "starts in N days" and newly effective laws stay current.
-    - cron: '17 9 * * *'
 
 jobs:
   check:

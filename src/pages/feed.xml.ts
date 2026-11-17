@@ -2,14 +2,14 @@
 // Mailchimp, IFTTT) turn this into alerts with no backend of our own.
 import type { APIContext } from 'astro';
 import { changelog, stateByCode, BUILD_DATE } from '../lib/data.ts';
-import { SITE } from '../config.ts';
+import { SITE, absoluteUrl } from '../config.ts';
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export const GET = ({ site }: APIContext) => {
   // Only things that have happened: an entry appears on the day it takes place.
   const entries = changelog.filter((e) => e.date <= BUILD_DATE);
-  const url = (path: string) => new URL(path, site).href;
+  const url = (path: string) => absoluteUrl(path, site);
   const xml = `<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>${SITE.name}: plug-in solar law changes</title>

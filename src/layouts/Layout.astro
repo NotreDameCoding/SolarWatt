@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SITE } from '../config.ts';
+import { SITE, absoluteUrl } from '../config.ts';
 import { lastVerified } from '../lib/data.ts';
 import { formatDate } from '../lib/law.ts';
 
@@ -14,7 +14,7 @@ const nav = [
   ['/letter/', 'Landlord letter'],
   ['/about/', 'Method & data'],
 ];
-const canonical = new URL(path, Astro.site);
+const canonical = absoluteUrl(path, Astro.site);
 ---
 <!doctype html>
 <html lang="en">
@@ -24,6 +24,7 @@ const canonical = new URL(path, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="home" id="base" href="/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/atom+xml" title="SolarWatt law changes" href="/feed.xml" />
     <meta property="og:title" content={fullTitle} />

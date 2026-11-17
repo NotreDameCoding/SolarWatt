@@ -2,11 +2,11 @@
 import Layout from '../../layouts/Layout.astro';
 import { states, stateRates, lastVerified } from '../../lib/data.ts';
 import { formatDate, VERIFICATION_LABEL } from '../../lib/law.ts';
-import { SITE } from '../../config.ts';
+import { SITE, absoluteUrl } from '../../config.ts';
 
 const byLevel = (level: string) => states.filter((s) => s.verification === level && (s.status === 'legal' || s.status === 'legal_soon')).length;
 const openCount = states.reduce((n, s) => n + s.open_questions.length, 0);
-const embed = `<iframe src="${new URL('/embed/', Astro.site).href}" title="Is plug-in solar legal where I live?" width="100%" height="330" style="border:0;max-width:480px" loading="lazy"></iframe>`;
+const embed = `<iframe src="${absoluteUrl('/embed/', Astro.site)}" title="Is plug-in solar legal where I live?" width="100%" height="330" style="border:0;max-width:480px" loading="lazy"></iframe>`;
 ---
 <Layout title="Method and data" description="How SolarWatt checks state laws, estimates solar production and savings, and how to correct or reuse the open dataset.">
   <section>

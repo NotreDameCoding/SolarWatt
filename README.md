@@ -28,13 +28,19 @@ npm run build      # validates, then writes the site to dist/
 
 It is a plain Astro static site, so Vercel, Netlify, Cloudflare Pages, and GitHub Pages all work with the defaults (build command `npm run build`, output `dist`).
 
+### GitHub Pages
+
+`.github/workflows/deploy.yml` builds and publishes the site on every push to `main` and once a day. One setting is needed first: **Settings → Pages → Build and deployment → Source: GitHub Actions**. (The default, "Deploy from a branch", runs Jekyll over the source and fails.) The workflow sets `SITE_URL` and `BASE_PATH` by itself, so the site works at `https://<owner>.github.io/<repo>/`.
+
+### Other hosts
+
 Set one environment variable on the host:
 
 | Variable | Why |
 | --- | --- |
 | `SITE_URL` | Your real address, e.g. `https://solarwatt.org`. Used for canonical links, the feed, and the embed snippet. |
 
-Schedule a daily rebuild (a deploy hook plus a cron, or the included GitHub Action). Laws with a future start date flip to "legal" in the visitor's browser on the day, but the pre-rendered state pages and the feed only update when the site is rebuilt.
+Schedule a daily rebuild (a deploy hook plus a cron). If the site is served from a sub-path, also set `BASE_PATH` (for example `/SolarWatt`). Laws with a future start date flip to "legal" in the visitor's browser on the day, but the pre-rendered state pages and the feed only update when the site is rebuilt.
 
 ## Turn on email alerts
 
