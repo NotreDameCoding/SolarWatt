@@ -1,0 +1,66 @@
+{
+  "code": "NJ",
+  "name": "New Jersey",
+  "slug": "new-jersey",
+  "status": "legal_soon",
+  "summary": "New Jersey's Garden State Balcony Solar Act is signed and starts March 1, 2027. It allows up to 1,200 watts with no utility approval, and stops landlords, HOAs, and towns from banning qualifying devices.",
+  "bill": {
+    "number": "S2368 / A4836",
+    "name": "Garden State Balcony Solar Act",
+    "citation": "P.L.2026, c.82",
+    "url": "https://njleg.gov/bill-search/2026/S2368"
+  },
+  "signed_date": "2026-09-01",
+  "effective_date": "2027-03-01",
+  "watt_cap": 1200,
+  "watt_cap_note": "Maximum output to the outlet.",
+  "tiers": [
+    {
+      "max_watts": 400,
+      "rule": "Exempt from product-listing and code provisions that would require altering the building."
+    },
+    {
+      "max_watts": 1200,
+      "rule": "Must meet the listing and electrical code requirements in full."
+    }
+  ],
+  "certification": "Listed or certified to the UL 3700 Outline of Investigation, or a similar standard from an equivalent lab.",
+  "utility": {
+    "approval_required": false,
+    "notification": "No utility notification, registration, or approval.",
+    "fees": "None.",
+    "net_metering": "Exempt from interconnection requirements; no export credit reported."
+  },
+  "renters": "Give your landlord written notice of intent, with compliance documentation and the proposed location, at least 7 days before placing the device. Landlords may set reasonable restrictions on size and placement but cannot ban it.",
+  "renter_protection": true,
+  "renter_notice_days": 7,
+  "hoa": "Governing documents that prohibit a device on the exterior of a unit are void. Associations may set reasonable rules on dimensions and placement.",
+  "hoa_protection": true,
+  "proposed": null,
+  "notes": [
+    "Municipalities cannot prohibit devices on residential property.",
+    "The utility is not liable for damage, injury, or power-quality problems the device causes."
+  ],
+  "open_questions": [
+    "One bill aggregator gives the tenant notice period as 14 days rather than 7."
+  ],
+  "sources": [
+    {
+      "title": "S2368 bill page, New Jersey Legislature",
+      "url": "https://njleg.gov/bill-search/2026/S2368",
+      "kind": "primary"
+    },
+    {
+      "title": "S2368 text (second reprint)",
+      "url": "https://pub.njleg.gov/Bills/2026/S2500/2368_R2.HTM",
+      "kind": "primary"
+    },
+    {
+      "title": "pv magazine: NJ legislature passes plug-in solar bill",
+      "url": "https://pv-magazine-usa.com/2026/07/01/new-jersey-legislature-unanimously-passes-plug-in-solar-bill/",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "mixed",
+  "last_verified": "2026-11-16"
+}

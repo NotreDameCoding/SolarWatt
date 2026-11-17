@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+import { SITE } from '../config.ts';
+import { lastVerified } from '../lib/data.ts';
+import { formatDate } from '../lib/law.ts';
+
+interface Props { title?: string; description?: string; bare?: boolean }
+const { title, description = SITE.description, bare = false } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name}: ${SITE.tagline}`;
+const path = Astro.url.pathname;
+const nav = [
+  ['/states/', 'States'],
+  ['/products/', 'Certified products'],
+  ['/letter/', 'Landlord letter'],
+  ['/about/', 'Method & data'],
+];
+const canonical = new URL(path, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/atom+xml" title="SolarWatt law changes" href="/feed.xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#faf6ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111913" media="(prefers-color-scheme: dark)" />
+    <slot name="head" />
+  </head>
+  <body>
+    {!bare && (
+      <>
+        <a class="skip" href="#main">Skip to content</a>
+        <div class="disclaimer">
+          Not legal advice. Laws checked {formatDate(lastVerified)}. Confirm with your utility before you plug in.
+        </div>
+        <header class="site-header">
+          <div class="wrap">
+            <a class="brand" href="/">
+              <svg viewBox="0 0 32 32" aria-hidden="true">
+                <circle cx="16" cy="16" r="7" fill="var(--sun)" />
+                <g stroke="var(--sun)" stroke-width="2.5" stroke-linecap="round">
+                  <path d="M16 2v4M16 26v4M2 16h4M26 16h4M6.1 6.1l2.8 2.8M23.1 23.1l2.8 2.8M6.1 25.9l2.8-2.8M23.1 8.9l2.8-2.8" />
+                </g>
+              </svg>
+              {SITE.name}
+            </a>
+            <nav class="site-nav" aria-label="Main">
+              {nav.map(([href, label]) => (
+                <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>
+              ))}
+            </nav>
+          </div>
+        </header>
+      </>
+    )}
+    <main id="main"><slot /></main>
+    {!bare && (
+      <footer class="site-footer">
+        <div class="wrap">
+          <nav aria-label="Footer">
+            <a href="/about/">Method &amp; data</a>
+            <a href="/data/states.json">Dataset (JSON)</a>
+            <a href="/data/states.csv">Dataset (CSV)</a>
+            <a href="/feed.xml">Law-change feed</a>
+            <a href={SITE.repo}>GitHub</a>
+            <a href={`${SITE.repo}/issues/new/choose`}>Report an error</a>
+          </nav>
+          <p>
+            SolarWatt is free and open source. Code is MIT licensed; the dataset is CC0. This site is general
+            information, not legal, electrical, or financial advice. Laws change and our records can be wrong or out
+            of date: read the cited sources and check with your utility, landlord, and a licensed electrician where required.
+          </p>
+        </div>
+      </footer>
+    )}
+  </body>
+</html>

@@ -1,0 +1,59 @@
+{
+  "code": "VA",
+  "name": "Virginia",
+  "slug": "virginia",
+  "status": "legal_soon",
+  "summary": "Virginia's law is signed. Devices up to 1,200 watts per dwelling are allowed, and large landlords cannot ban them. Trackers disagree on whether it is already in force or starts January 1, 2027, so we show the later date.",
+  "bill": {
+    "number": "HB 395 / SB 250",
+    "name": "Small portable solar generation devices",
+    "citation": "Acts of Assembly 2026, Chapter 1052",
+    "url": "https://lis.virginia.gov/bill-details/20261/HB395"
+  },
+  "signed_date": "2026-04-22",
+  "effective_date": "2027-01-01",
+  "watt_cap": 1200,
+  "watt_cap_note": "Per dwelling unit.",
+  "tiers": [],
+  "certification": "Not confirmed. Check the enrolled text.",
+  "utility": {
+    "approval_required": false,
+    "notification": "A standard utility notification form is required.",
+    "fees": "Utilities may not require interconnection approval.",
+    "net_metering": "Not confirmed."
+  },
+  "renters": "Landlords who own more than four rental units cannot prohibit a device on the exterior of your unit. Give written notice, with documentation and the proposed location, at least 7 days before installing. The landlord may set reasonable limits on size and placement, and you are responsible for any damage.",
+  "renter_protection": true,
+  "renter_notice_days": 7,
+  "hoa": "Reported to include protections against local and association bans; confirm against the enrolled text.",
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [],
+  "open_questions": [
+    "Effective date: some trackers say July 1, 2026 with consumer provisions on January 1, 2027; others say January 1, 2027 for everything. Needs checking against Chapter 1052."
+  ],
+  "sources": [
+    {
+      "title": "HB 395 enrolled text, Virginia LIS",
+      "url": "https://lis.virginia.gov/bill-details/20261/HB395/text/HB395ER2",
+      "kind": "primary"
+    },
+    {
+      "title": "LegiScan: VA HB395 history",
+      "url": "https://legiscan.com/VA/bill/HB395/2026",
+      "kind": "secondary"
+    },
+    {
+      "title": "PlugSolarHub state tracker (updated Oct 20, 2026)",
+      "url": "https://plugsolarhub.com/states-and-regulations",
+      "kind": "secondary"
+    },
+    {
+      "title": "PlugSolarMath law summary (updated Oct 21, 2026)",
+      "url": "https://plugsolarmath.com/plug-in-solar-laws-by-state/",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "mixed",
+  "last_verified": "2026-11-16"
+}

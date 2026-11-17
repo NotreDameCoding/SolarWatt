@@ -1,0 +1,43 @@
+---
+import { SITE } from '../config.ts';
+import { states } from '../lib/data.ts';
+interface Props { state?: string; heading?: string }
+const { state, heading = 'Get told when your state changes' } = Astro.props;
+const username = SITE.buttondownUsername;
+---
+<div class="card">
+  <h2>{heading}</h2>
+  {username ? (
+    <form
+      action={`https://buttondown.com/api/emails/embed-subscribe/${username}`}
+      method="post"
+      class="stack"
+    >
+      <p class="muted">One email when a law is signed, takes effect, or changes. Nothing else.</p>
+      <div class="grid-2">
+        <div>
+          <label for="alert-email">Email</label>
+          <input id="alert-email" type="email" name="email" required autocomplete="email" />
+        </div>
+        <div>
+          <label for="alert-state">State</label>
+          <select id="alert-state" name="tag">
+            {states.map((s) => <option value={s.code} selected={s.code === state}>{s.name}</option>)}
+          </select>
+        </div>
+      </div>
+      <button class="btn" type="submit">Subscribe</button>
+    </form>
+  ) : (
+    <div class="stack">
+      <p class="muted">
+        Every signing, veto, and effective date is published to a feed the day we record it.
+      </p>
+      <div class="actions">
+        <a class="btn" href="/feed.xml">Follow the feed (RSS)</a>
+        <a class="btn secondary" href={`${SITE.repo}/subscription`}>Watch on GitHub</a>
+      </div>
+      <p class="small muted">Email alerts are coming. Any feed reader, or a free RSS-to-email service, works with the feed today.</p>
+    </div>
+  )}
+</div>

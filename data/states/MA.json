@@ -1,0 +1,41 @@
+{
+  "code": "MA",
+  "name": "Massachusetts",
+  "slug": "massachusetts",
+  "status": "in_progress",
+  "summary": "The House and Senate each passed an energy bill with plug-in solar language. A conference committee appointed July 16, 2026 is reconciling the two versions.",
+  "bill": {
+    "number": "H 5175 / S 3143",
+    "name": null,
+    "url": "https://legiscan.com/MA/bill/H5175/2025"
+  },
+  "signed_date": null,
+  "effective_date": null,
+  "watt_cap": null,
+  "watt_cap_note": null,
+  "tiers": [],
+  "certification": null,
+  "utility": null,
+  "renters": null,
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": null,
+  "hoa_protection": false,
+  "proposed": "The House version is reported to cap systems at 1,200 watts and ban utility fees. Details may change in conference.",
+  "notes": [],
+  "open_questions": [],
+  "sources": [
+    {
+      "title": "LegiScan: MA H5175 history",
+      "url": "https://legiscan.com/MA/bill/H5175/2025",
+      "kind": "secondary"
+    },
+    {
+      "title": "PlugSolarHub state tracker (updated Oct 20, 2026)",
+      "url": "https://plugsolarhub.com/states-and-regulations",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "secondary",
+  "last_verified": "2026-11-16"
+}

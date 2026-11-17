@@ -1,0 +1,39 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StateMap from '../../components/StateMap.astro';
+import { states, BUILD_DATE, lastVerified } from '../../lib/data.ts';
+import { verdictFor, formatDate } from '../../lib/law.ts';
+
+const order = { yes: 0, soon: 1, wait: 2, no: 3 };
+const rows = states
+  .map((s) => ({ s, v: verdictFor(s, BUILD_DATE) }))
+  .sort((a, b) => order[a.v.tone] - order[b.v.tone] || a.s.name.localeCompare(b.s.name));
+---
+<Layout title="Plug-in solar laws by state" description="Every US state's plug-in (balcony) solar law: status, wattage cap, effective date, and bill number, with sources.">
+  <section>
+    <div class="wrap stack">
+      <h1>Plug-in solar laws by state</h1>
+      <p class="lede muted">All 50 states and DC, checked {formatDate(lastVerified)}. Download the table as <a href="/data/states.csv">CSV</a> or <a href="/data/states.json">JSON</a>.</p>
+      <StateMap />
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>State</th><th>Status</th><th>Cap</th><th>In effect</th><th>Bill</th><th>Renter or HOA protection</th></tr>
+          </thead>
+          <tbody>
+            {rows.map(({ s, v }) => (
+              <tr>
+                <td><a href={`/${s.slug}/`}><strong>{s.name}</strong></a></td>
+                <td><span class={`badge tone-${v.tone}`}>{v.label}</span></td>
+                <td style="white-space:nowrap">{(v.tone === 'yes' || v.tone === 'soon') && s.watt_cap ? `${s.watt_cap.toLocaleString('en-US')} W` : '–'}</td>
+                <td style="white-space:nowrap">{s.effective_date ? formatDate(s.effective_date) : '–'}</td>
+                <td>{s.bill?.number ?? '–'}</td>
+                <td>{[s.renter_protection && 'Renters', s.hoa_protection && 'HOA'].filter(Boolean).join(', ') || '–'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</Layout>

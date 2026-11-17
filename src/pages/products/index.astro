@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { products } from '../../lib/data.ts';
+import { formatDate } from '../../lib/law.ts';
+import { SITE } from '../../config.ts';
+
+const list = products.products;
+const verified = list.filter((p) => p.status === 'verified').length;
+const hasAffiliate = list.some((p) => p.affiliate_url);
+---
+<Layout title="UL 3700 certified plug-in solar products" description="Which plug-in solar kits and microinverters are actually certified to UL 3700, which only claim it, and how to check a certificate yourself.">
+  <section>
+    <div class="wrap stack">
+      <h1>Which products are actually certified?</h1>
+      <p class="lede muted prose">
+        Most state laws only cover a device that a recognized lab has certified. Makers use "certified", "compliant",
+        and "designed to" as if they meant the same thing. They do not. This table separates what a maker says
+        from what a public certificate shows.
+      </p>
+
+      <div class="callout prose">
+        <p>
+          <strong>{verified} of {list.length} products have a certificate we could link.</strong>
+          {verified === 0 && ' Every entry below is a maker or press claim we have not been able to confirm in a lab directory. '}
+          Checked {formatDate(products.last_checked)}. Before you buy, look the model up yourself using the steps below.
+        </p>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Product</th><th>What it is</th><th>What is claimed</th><th>Lab</th><th>Certificate</th></tr></thead>
+          <tbody>
+            {list.map((p) => (
+              <tr>
+                <td>
+                  <strong>{p.maker} {p.model}</strong>
+                  {p.ac_watts && <div class="small muted">{p.ac_watts}</div>}
+                  {p.affiliate_url && <div><a href={p.affiliate_url} rel="sponsored noopener">Buy</a></div>}
+                </td>
+                <td>
+                  <span class={`badge ${p.scope === 'system' ? 'tone-yes' : 'tone-wait'}`}>{p.scope === 'system' ? 'Whole kit' : 'Part only'}</span>
+                  <div class="small muted" style="margin-top:.3rem">{p.kind}</div>
+                </td>
+                <td>
+                  {p.claim}
+                  <div class="small">{p.sources.map((s) => <a href={s.url}>{s.title}</a>)}</div>
+                </td>
+                <td>{p.lab ?? 'Not stated'}</td>
+                <td>
+                  {p.certificate_url
+                    ? <a href={p.certificate_url}>View certificate</a>
+                    : <span class="badge tone-soon">Not linked yet</span>}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted">
+        Found a certificate, or a product we are missing?
+        <a href={`${SITE.repo}/edit/main/data/products.json`}>Add it on GitHub</a>. An entry is only marked verified when it links a public certificate or lab directory listing.
+        {hasAffiliate && ' Some "Buy" links are affiliate links: we may earn a commission, which never changes what this table says.'}
+      </p>
+
+      <div class="grid-2">
+        <div class="card prose">
+          <h2>What UL 3700 is</h2>
+          <p>
+            UL 3700 is the safety document UL Solutions wrote for plug-in solar. UL launched a testing and
+            certification program built on it in January 2026. It covers the things that make plugging a generator
+            into an outlet different from plugging in a lamp: the plug must go dead the instant it is pulled, the
+            device must stop when the grid is down, and it must not overload the circuit it shares.
+          </p>
+          <p>
+            An older standard, UL 1741, covers grid-tied inverters in general. A UL 1741 listing on the inverter is
+            real, but it does not test the plug-in part. Some state laws accept any recognized lab's
+            certification; Vermont and New Jersey name UL 3700 itself. <a href="/states/">Check your state.</a>
+          </p>
+        </div>
+        <div class="card prose">
+          <h2>How to check a claim yourself</h2>
+          <ol>
+            <li>Ask the seller for the certificate number and the name of the lab (UL, CSA, Intertek/ETL, TÜV).</li>
+            <li>Search that lab's public directory for the exact model number: UL's is <a href="https://productiq.ulprospector.com/">Product iQ</a> (free account), CSA's is the <a href="https://www.csagroup.org/testing-certification/product-listing/">Certified Product Listing</a>, Intertek's is the <a href="https://www.intertek.com/directories/">Directory of Listed Products</a>.</li>
+            <li>Check what the listing covers. A certified inverter inside an uncertified kit is a "part only" result.</li>
+            <li>Look for the lab's mark on the device's rating label, not just on the box or website.</li>
+          </ol>
+          <p class="small muted">"Compliant with", "tested to", and "designed to meet" are not certifications.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

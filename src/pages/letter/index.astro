@@ -1,0 +1,130 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { states } from '../../lib/data.ts';
+---
+<Layout title="Landlord and HOA letter for plug-in solar" description="Write a notice or permission request for a balcony solar panel that fits your state's law. Free, private, and ready to print.">
+  <section>
+    <div class="wrap stack">
+      <div class="no-print">
+        <h1>Write the letter</h1>
+        <p class="lede muted prose">
+          Fill in what you know. In states where the law protects you, this writes a formal notice.
+          Everywhere else it writes a permission request that answers the questions a landlord or board will ask.
+          Nothing you type leaves this page.
+        </p>
+      </div>
+      <div class="calc">
+        <form class="controls no-print" id="letter-form">
+          <fieldset>
+            <legend>Who is it for?</legend>
+            <div class="segmented">
+              <label><input type="radio" name="to" value="landlord" checked />Landlord</label>
+              <label><input type="radio" name="to" value="hoa" />HOA or condo board</label>
+            </div>
+          </fieldset>
+          <div>
+            <label for="l-state">State</label>
+            <select id="l-state" name="state">
+              <option value="">Choose a state</option>
+              {states.map((s) => <option value={s.code}>{s.name}</option>)}
+            </select>
+          </div>
+          <div><label for="l-name">Your name</label><input id="l-name" name="name" autocomplete="name" /></div>
+          <div><label for="l-address">Your address and unit</label><input id="l-address" name="address" autocomplete="street-address" /></div>
+          <div><label for="l-recipient">Their name</label><input id="l-recipient" name="recipient" autocomplete="off" /></div>
+          <div>
+            <label for="l-device">Device make and model</label>
+            <input id="l-device" name="device" placeholder="e.g. two 400 W panels with a plug-in microinverter" />
+          </div>
+          <div class="field-row">
+            <div><label for="l-watts">Max output (watts)</label><input id="l-watts" name="watts" type="number" min="50" max="2000" step="10" value="800" /></div>
+            <div><label for="l-date">Date</label><input id="l-date" name="date" type="date" /></div>
+          </div>
+          <div>
+            <label for="l-cert">Certification</label>
+            <input id="l-cert" name="cert" placeholder="e.g. UL 3700, certificate attached" />
+            <p class="hint"><a href="/products/">Not sure? See which products are certified.</a></p>
+          </div>
+          <div>
+            <label for="l-location">Where and how it will be mounted</label>
+            <textarea id="l-location" name="location" rows="3" placeholder="e.g. inside my balcony railing, facing south, fastened with the manufacturer's clamps and a steel safety cable"></textarea>
+          </div>
+        </form>
+        <div class="stack">
+          <div class="callout no-print" id="letter-kind" hidden></div>
+          <div class="letter-preview" id="letter" aria-live="polite" aria-label="Letter preview"></div>
+          <div class="actions no-print">
+            <button class="btn" type="button" id="copy">Copy text</button>
+            <button class="btn secondary" type="button" id="print">Print or save as PDF</button>
+            <button class="btn secondary" type="button" id="download">Download .txt</button>
+          </div>
+          <p class="small muted no-print">
+            This is a starting point, not legal advice. Read it, change anything that is not true for you,
+            and attach the certificate and the manufacturer's manual.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="application/json" id="states-data" set:html={JSON.stringify(states)} />
+  <script>
+    import { buildLetter } from '../../lib/letter.ts';
+    import { todayIso, type StateRecord } from '../../lib/law.ts';
+
+    const states: StateRecord[] = JSON.parse(document.getElementById('states-data')!.textContent!);
+    const form = document.getElementById('letter-form') as HTMLFormElement;
+    const preview = document.getElementById('letter')!;
+    const kindBox = document.getElementById('letter-kind')!;
+    const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
+
+    const params = new URLSearchParams(location.search);
+    if (params.get('state')) field('state').value = params.get('state')!.toUpperCase();
+    if (params.get('to') === 'hoa') (form.querySelector('input[value="hoa"]') as HTMLInputElement).checked = true;
+    field('date').value = todayIso();
+
+    let text = '';
+    function render() {
+      const data = new FormData(form);
+      const state = states.find((s) => s.code === data.get('state')) ?? null;
+      const letter = buildLetter({
+        recipientType: data.get('to') === 'hoa' ? 'hoa' : 'landlord',
+        senderName: String(data.get('name') ?? ''),
+        senderAddress: String(data.get('address') ?? ''),
+        recipientName: String(data.get('recipient') ?? ''),
+        device: String(data.get('device') ?? ''),
+        watts: Math.max(0, Number(data.get('watts')) || 0),
+        location: String(data.get('location') ?? ''),
+        certification: String(data.get('cert') ?? ''),
+        date: String(data.get('date') || todayIso()),
+        state,
+      });
+      text = letter.body;
+      preview.textContent = text;
+      kindBox.hidden = !state;
+      if (state) {
+        const over = state.watt_cap && Number(data.get('watts')) > state.watt_cap
+          ? ` Note: ${state.name}'s cap is ${state.watt_cap.toLocaleString('en-US')} watts, and this device is larger.` : '';
+        kindBox.textContent = (letter.kind === 'notice'
+          ? `${state.name} law limits what the recipient can refuse, so this is written as a formal notice.`
+          : `${state.name} law does not require the recipient to say yes, so this is written as a request.`) + over;
+      }
+    }
+    form.addEventListener('input', render);
+    form.addEventListener('submit', (e) => e.preventDefault());
+    render();
+
+    const copy = document.getElementById('copy')!;
+    copy.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(text); copy.textContent = 'Copied'; }
+      catch { copy.textContent = 'Select the text and copy it'; }
+      setTimeout(() => { copy.textContent = 'Copy text'; }, 2000);
+    });
+    document.getElementById('print')!.addEventListener('click', () => window.print());
+    document.getElementById('download')!.addEventListener('click', () => {
+      const url = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+      const a = Object.assign(document.createElement('a'), { href: url, download: 'plug-in-solar-letter.txt' });
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</Layout>

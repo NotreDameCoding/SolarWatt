@@ -1,0 +1,64 @@
+{
+  "code": "MD",
+  "name": "Maryland",
+  "slug": "maryland",
+  "status": "legal",
+  "summary": "Maryland allows one certified plug-in system of up to 1,200 watts per utility meter. You notify your utility, but it cannot require approval or charge fees.",
+  "bill": {
+    "number": "HB 1532",
+    "name": "Utility RELIEF Act",
+    "citation": "Chapter 353 of 2026",
+    "url": "https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/hb1532?ys=2026RS"
+  },
+  "signed_date": "2026-05-12",
+  "effective_date": "2026-05-12",
+  "watt_cap": 1200,
+  "watt_cap_note": "Per utility meter, one system per meter.",
+  "tiers": [
+    {
+      "max_watts": 391,
+      "rule": "Exempt from certain product-listing and code provisions that would require altering the building."
+    },
+    {
+      "max_watts": 1200,
+      "rule": "Must be certified by UL or an equivalent national testing lab."
+    }
+  ],
+  "certification": "UL or an equivalent nationally recognized testing laboratory.",
+  "utility": {
+    "approval_required": false,
+    "notification": "You must notify your utility after installing. It is a notice, not an approval.",
+    "fees": "No approval or fees.",
+    "net_metering": "Not confirmed."
+  },
+  "renters": "Sources conflict. One report says landlords cannot block a device but tenants must give notice; another says the law is silent. Get written permission until this is verified.",
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": "Not confirmed.",
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [],
+  "open_questions": [
+    "Effective date: it passed as an emergency bill (effective on signing, May 12, 2026) per the fiscal note, but one guide says July 1, 2026.",
+    "Whether landlords are barred from prohibiting devices."
+  ],
+  "sources": [
+    {
+      "title": "HB 1532 fiscal and policy note, Dept. of Legislative Services",
+      "url": "https://mgaleg.maryland.gov/2026RS/fnotes/bil_0002/hb1532.pdf",
+      "kind": "primary"
+    },
+    {
+      "title": "pv magazine: plug-in provisions pass in Maryland and Colorado",
+      "url": "https://pv-magazine-usa.com/2026/04/15/bills-containing-plug-in-solar-provisions-pass-in-maryland-and-colorado/",
+      "kind": "secondary"
+    },
+    {
+      "title": "PromptQuorum state guide (updated Oct 31, 2026)",
+      "url": "https://www.promptquorum.com/balcony-solar/balcony-solar-legal-us-states",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "secondary",
+  "last_verified": "2026-11-16"
+}

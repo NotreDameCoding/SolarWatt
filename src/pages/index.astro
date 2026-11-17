@@ -1,0 +1,216 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StateMap from '../components/StateMap.astro';
+import Alerts from '../components/Alerts.astro';
+import { states, changelog, stateRates, BUILD_DATE } from '../lib/data.ts';
+import { verdictFor, formatDate } from '../lib/law.ts';
+
+const verdicts = states.map((s) => verdictFor(s, BUILD_DATE));
+const count = (tone: string) => verdicts.filter((v) => v.tone === tone).length;
+const upcoming = changelog.filter((e) => e.date >= BUILD_DATE).reverse();
+const recent = changelog.filter((e) => e.date < BUILD_DATE).slice(0, 5);
+const slugOf = Object.fromEntries(states.map((s) => [s.code, s.slug]));
+---
+<Layout>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Can you plug a solar panel into your wall?</h1>
+      <p class="lede">
+        In a growing number of states, yes: a panel on your balcony, a cord, an ordinary outlet.
+        Enter your ZIP code to see the law where you live and what it would save you.
+      </p>
+      <form class="zip-form" id="zip-form" novalidate>
+        <label for="zip" class="skip">ZIP code</label>
+        <input id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="ZIP code" aria-describedby="zip-error" />
+        <button class="btn" type="submit">Check</button>
+      </form>
+      <p class="form-error" id="zip-error" role="alert" hidden></p>
+      <div class="tally">
+        <span><b>{count('yes')}</b>states where it is legal today</span>
+        <span><b>{count('soon')}</b>more with signed laws starting in 2027</span>
+        <span><b>{count('wait')}</b>with bills pending</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" hidden aria-live="polite">
+    <div class="wrap stack">
+      <div class="verdict" id="verdict">
+        <div class="where" id="v-where"></div>
+        <h2 id="v-headline"></h2>
+        <p id="v-detail"></p>
+        <p id="v-summary"></p>
+        <div class="provenance">
+          <span id="v-verification"></span>
+          <span id="v-checked"></span>
+          <a id="v-link" href="/">Full details and sources</a>
+        </div>
+      </div>
+
+      <dl class="facts" id="facts"></dl>
+
+      <div class="card">
+        <h2>What it would save you</h2>
+        <p class="muted" id="calc-intro"></p>
+        <div class="calc">
+          <form class="controls" id="calc-form">
+            <fieldset>
+              <legend>Kit size</legend>
+              <div class="segmented" id="size-options">
+                <label><input type="radio" name="watts" value="400" />400 W</label>
+                <label><input type="radio" name="watts" value="800" checked />800 W</label>
+                <label><input type="radio" name="watts" value="1200" />1,200 W</label>
+                <label data-min-cap="1920" hidden><input type="radio" name="watts" value="1920" />1,920 W</label>
+              </div>
+            </fieldset>
+            <div class="field-row">
+              <div>
+                <label for="facing">Panel faces</label>
+                <select id="facing" name="facing">
+                  <option value="180">South</option>
+                  <option value="135">Southeast</option>
+                  <option value="225">Southwest</option>
+                  <option value="90">East</option>
+                  <option value="270">West</option>
+                  <option value="45">Northeast</option>
+                  <option value="315">Northwest</option>
+                  <option value="0">North</option>
+                </select>
+              </div>
+              <div>
+                <label for="shade">Shade</label>
+                <select id="shade" name="shade">
+                  <option value="0">Open sky</option>
+                  <option value="0.2">Some shade</option>
+                  <option value="0.45">Heavy shade</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="tilt">How it is mounted</label>
+              <select id="tilt" name="tilt">
+                <option value="90">Hung flat on a railing (vertical)</option>
+                <option value="65">Tilted out from a railing</option>
+                <option value="30">Angled on a stand, patio, or yard</option>
+                <option value="5">Lying nearly flat</option>
+              </select>
+            </div>
+            <div>
+              <label for="baseload">Power your home uses during the day</label>
+              <select id="baseload" name="baseload">
+                <option value="150">Low, nobody home (150 W)</option>
+                <option value="300" selected>Typical (300 W)</option>
+                <option value="600">High, home all day (600 W)</option>
+                <option value="1200">Very high, AC all day (1,200 W)</option>
+              </select>
+              <p class="hint">A fridge, router, and standby devices draw about 300 W. Plug-in solar earns nothing for power sent to the grid, so this matters a lot.</p>
+            </div>
+            <div class="field-row">
+              <div>
+                <label for="rate">Your rate (¢/kWh)</label>
+                <input id="rate" name="rate" type="number" min="1" max="99" step="0.1" inputmode="decimal" />
+              </div>
+              <div>
+                <label for="cost">Kit price ($)</label>
+                <input id="cost" name="cost" type="number" min="0" max="20000" step="10" inputmode="numeric" />
+              </div>
+            </div>
+            <div id="utility-field" hidden>
+              <label for="utility">Your utility</label>
+              <select id="utility" name="utility"></select>
+              <p class="hint">Not yours? Type the rate from your bill above.</p>
+            </div>
+          </form>
+
+          <div class="stack">
+            <div class="numbers">
+              <div class="number lead"><div class="value" id="n-savings">–</div><div class="label">saved per year</div></div>
+              <div class="number"><div class="value" id="n-payback">–</div><div class="label">to pay for itself</div></div>
+              <div class="number"><div class="value" id="n-kwh">–</div><div class="label">kWh made per year</div></div>
+              <div class="number"><div class="value" id="n-self">–</div><div class="label">of it used at home</div></div>
+            </div>
+            <figure style="margin:0">
+              <svg class="chart" id="chart" viewBox="0 0 600 220" role="img" aria-labelledby="chart-title"><title id="chart-title">Monthly production</title></svg>
+              <figcaption class="legend">
+                <span style="--swatch: var(--green)">Used at home (saves money)</span>
+                <span style="--swatch: var(--sun)">Sent to the grid (unpaid)</span>
+              </figcaption>
+            </figure>
+            <ul class="calc-notes" id="calc-notes"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>What to do next</h2>
+          <ol class="steps" id="steps"></ol>
+        </div>
+        <div id="alerts-slot"><Alerts /></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap grid-2">
+      <div>
+        <h2>Where it stands</h2>
+        <p class="muted">Tap a state for its law, dates, and sources.</p>
+        <StateMap />
+      </div>
+      <div>
+        <h2>What changes next</h2>
+        <ol class="timeline">
+          {upcoming.map((e) => (
+            <li class="upcoming">
+              <time datetime={e.date}>{formatDate(e.date)}</time>
+              <a href={`/${slugOf[e.state]}/`}>{e.title}</a>
+            </li>
+          ))}
+          {recent.map((e) => (
+            <li>
+              <time datetime={e.date}>{formatDate(e.date)}</time>
+              <a href={`/${slugOf[e.state]}/`}>{e.title}</a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="narrow">
+      <h2>Common questions</h2>
+      <details>
+        <summary>What is plug-in solar?</summary>
+        <p>One to four solar panels with a small inverter and a normal power cord. You hang the panels on a balcony, railing, or patio, plug the cord into an outlet, and the power flows into your home's wiring, so your appliances use it before drawing from the grid. Germany has over a million of these. No roof, no installer, and you take it with you when you move.</p>
+      </details>
+      <details>
+        <summary>Why was it not allowed before?</summary>
+        <p>Utility rules were written for rooftop systems. Anything that feeds power into your wiring needed an interconnection agreement, which can take weeks and cost more than a small kit. The new state laws carve out small, certified plug-in devices from that process.</p>
+      </details>
+      <details>
+        <summary>Is it safe to push power into an outlet?</summary>
+        <p>A certified device stops producing within a fraction of a second when it is unplugged or the grid goes down, so the plug's prongs are never live in your hand and it cannot shock a line worker. The second concern is circuit loading: the panel adds current to a circuit without the breaker seeing it. That is why laws cap output (usually 1,200 watts, which is 10 amps) and why UL 3700 exists. Use a certified device, and plug it into a circuit that is not also running a space heater or air conditioner.</p>
+      </details>
+      <details>
+        <summary>Will my meter run backwards? Do I get paid for extra power?</summary>
+        <p>Almost certainly not. Every law so far excludes plug-in devices from net metering, so power you do not use the moment it is made goes to the grid for free. That is why the calculator asks how much power your home uses during the day, and why an 800-watt kit can pay back faster than a 1,200-watt one.</p>
+      </details>
+      <details>
+        <summary>I rent. Can my landlord say no?</summary>
+        <p>In most states, yes. Only a few laws limit what landlords or HOAs can refuse; the state pages say which. Either way, put it in writing. The <a href="/letter/">letter generator</a> writes a notice or a permission request that fits your state.</p>
+      </details>
+      <details>
+        <summary>How do you know all this is right?</summary>
+        <p>Every state record cites its sources, shows the date it was last checked, and says whether it was read in the enacted law or comes from news coverage. Where sources disagree we say so and show the more cautious reading. The whole dataset is public, and <a href="/about/">anyone can correct it</a>.</p>
+      </details>
+    </div>
+  </section>
+
+  <script type="application/json" id="state-rates" set:html={JSON.stringify(stateRates.rates)} />
+  <script type="application/json" id="rate-year" set:html={JSON.stringify(stateRates.year)} />
+  <script>
+    import '../scripts/home.ts';
+  </script>
+</Layout>

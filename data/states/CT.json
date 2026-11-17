@@ -1,0 +1,54 @@
+{
+  "code": "CT",
+  "name": "Connecticut",
+  "slug": "connecticut",
+  "status": "legal",
+  "summary": "Connecticut allows one portable solar device of up to 1,200 watts behind your meter. Your electric company cannot require approval, charge a fee, or demand extra equipment.",
+  "bill": {
+    "number": "HB 5340",
+    "name": null,
+    "citation": "Public Act 26-127, Sec. 9",
+    "url": "https://www.cga.ct.gov/2026/act/Pa/pdf/2026PA-00127-R00HB-05340-PA.PDF"
+  },
+  "signed_date": "2026-06-04",
+  "effective_date": "2026-10-01",
+  "watt_cap": 1200,
+  "watt_cap_note": "Maximum output; one device per electric meter; plugs into a standard 120-volt outlet.",
+  "tiers": [],
+  "certification": "Not confirmed. State building and fire codes are to add safe-installation provisions.",
+  "utility": {
+    "approval_required": false,
+    "notification": "None reported.",
+    "fees": "No approval, fees, or additional controls beyond what is built into the device.",
+    "net_metering": "Not confirmed."
+  },
+  "renters": "No landlord provision found. Ask your landlord in writing.",
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": "Not addressed in the sources we found.",
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [],
+  "open_questions": [
+    "Signing date is reported as June 4 or July 15, 2026; the bill history shows the Public Act number assigned May 20, 2026."
+  ],
+  "sources": [
+    {
+      "title": "Public Act 26-127 (official text)",
+      "url": "https://www.cga.ct.gov/2026/act/Pa/pdf/2026PA-00127-R00HB-05340-PA.PDF",
+      "kind": "primary"
+    },
+    {
+      "title": "OLR bill analysis, HB 5340",
+      "url": "https://www.cga.ct.gov/2026/ba/pdf/2026HB-05340-R01-BA.pdf",
+      "kind": "primary"
+    },
+    {
+      "title": "PromptQuorum state guide (updated Oct 31, 2026)",
+      "url": "https://www.promptquorum.com/balcony-solar/balcony-solar-legal-us-states",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "mixed",
+  "last_verified": "2026-11-16"
+}

@@ -1,0 +1,23 @@
+[
+  { "date": "2027-03-01", "state": "NJ", "type": "effective", "title": "New Jersey's Garden State Balcony Solar Act takes effect" },
+  { "date": "2027-01-01", "state": "CA", "type": "effective", "title": "California's SB 868 takes effect" },
+  { "date": "2027-01-01", "state": "NH", "type": "effective", "title": "New Hampshire's SB 540 takes effect" },
+  { "date": "2027-01-01", "state": "VA", "type": "effective", "title": "Virginia's HB 395 takes effect (latest reported date)" },
+  { "date": "2027-01-01", "state": "CO", "type": "effective", "title": "Colorado's protection for condo and HOA unit owners begins" },
+  { "date": "2026-12-31", "state": "NY", "type": "deadline", "title": "Deadline for Governor Hochul to act on New York's SUNNY Act" },
+  { "date": "2026-10-01", "state": "CT", "type": "effective", "title": "Connecticut's portable solar provision takes effect" },
+  { "date": "2026-09-30", "state": "CA", "type": "signed", "title": "California signs SB 868" },
+  { "date": "2026-09-01", "state": "NJ", "type": "signed", "title": "New Jersey signs the Garden State Balcony Solar Act" },
+  { "date": "2026-08-12", "state": "CO", "type": "effective", "title": "Colorado's HB26-1007 takes effect" },
+  { "date": "2026-07-15", "state": "ME", "type": "effective", "title": "Maine's LD 1730 takes effect (reported mid-July)" },
+  { "date": "2026-07-02", "state": "NH", "type": "signed", "title": "New Hampshire signs SB 540" },
+  { "date": "2026-07-01", "state": "VT", "type": "effective", "title": "Vermont's Act 149 takes effect" },
+  { "date": "2026-06-16", "state": "VT", "type": "signed", "title": "Vermont signs S.202" },
+  { "date": "2026-06-04", "state": "CT", "type": "signed", "title": "Connecticut signs HB 5340 (reported date)" },
+  { "date": "2026-05-28", "state": "NY", "type": "passed", "title": "New York legislature passes the SUNNY Act" },
+  { "date": "2026-05-12", "state": "MD", "type": "signed", "title": "Maryland signs the Utility RELIEF Act, effective immediately" },
+  { "date": "2026-05-07", "state": "CO", "type": "signed", "title": "Colorado signs HB26-1007" },
+  { "date": "2026-04-22", "state": "VA", "type": "signed", "title": "Virginia signs HB 395" },
+  { "date": "2026-04-06", "state": "ME", "type": "signed", "title": "Maine signs LD 1730" },
+  { "date": "2025-05-07", "state": "UT", "type": "effective", "title": "Utah's HB 340 takes effect, the first plug-in solar law in the US" }
+]

@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { states, stateRates, lastVerified } from '../../lib/data.ts';
+import { formatDate, VERIFICATION_LABEL } from '../../lib/law.ts';
+import { SITE } from '../../config.ts';
+
+const byLevel = (level: string) => states.filter((s) => s.verification === level && (s.status === 'legal' || s.status === 'legal_soon')).length;
+const openCount = states.reduce((n, s) => n + s.open_questions.length, 0);
+const embed = `<iframe src="${new URL('/embed/', Astro.site).href}" title="Is plug-in solar legal where I live?" width="100%" height="330" style="border:0;max-width:480px" loading="lazy"></iframe>`;
+---
+<Layout title="Method and data" description="How SolarWatt checks state laws, estimates solar production and savings, and how to correct or reuse the open dataset.">
+  <section>
+    <div class="narrow prose stack">
+      <h1>Method and data</h1>
+      <p class="lede muted">What this site knows, how it knows it, and where it could be wrong.</p>
+
+      <h2>The law records</h2>
+      <p>
+        There is one file per state in <a href={`${SITE.repo}/tree/main/data/states`}>data/states</a>. Each one cites its
+        sources, carries the date it was last checked ({formatDate(lastVerified)} at the moment), and is labelled
+        with how well it has been verified:
+      </p>
+      <ul>
+        {Object.entries(VERIFICATION_LABEL).map(([key, v]) => (
+          <li><strong>{v.label}.</strong> {v.explain} <span class="muted">({byLevel(key)} of the states with a signed law)</span></li>
+        ))}
+      </ul>
+      <p>
+        Trackers and news stories disagree with each other more often than you would hope, mostly on effective dates.
+        When they do, the record lists the disagreement under "Not yet settled" and the site shows the more cautious
+        reading, such as the later start date. There are {openCount} open points right now. Closing them by reading
+        the enacted text is the most useful thing a contributor can do.
+      </p>
+      <p>
+        A signed law with a future start date flips to "legal" by itself on that date, in your browser, so the site
+        does not go stale on January 1.
+      </p>
+
+      <h2>The savings estimate</h2>
+      <p>
+        Production comes from a model that runs in your browser. It takes about 20 years of monthly sunshine and
+        temperature data from NASA's POWER project on a one-degree grid, splits each month into clear and overcast
+        days, and works out how much light lands on a panel at your tilt and direction through each day, using the
+        standard methods from solar engineering textbooks (Erbs, Collares-Pereira and Rabl, Hay and Davies). It
+        then applies heat losses, 14% system losses, and inverter limits.
+      </p>
+      <p>
+        Checked against NREL's PVWatts for tilted, south-facing systems, it lands within about 10% across cities
+        from Seattle to Phoenix. The test suite enforces that. It does not know about the tree outside your window:
+        shade is the biggest source of error, so be honest with the shade setting.
+      </p>
+      <p>
+        Savings are not simply production times price. No plug-in solar law pays you for power sent to the grid, so
+        the model compares the panel's output through the day against what your home is using and only counts what
+        you use yourself. That is why the daytime-use setting moves the answer so much.
+      </p>
+      <p>
+        Electricity prices are each utility's average residential price for {stateRates.year}, from NREL's
+        utility-rates-by-ZIP dataset. They are a starting point. Your bill has the real number, and in
+        deregulated states the dataset sometimes has only the delivery charge, in which case we fall back to the state average.
+      </p>
+
+      <h2>Sources of data</h2>
+      <ul>
+        <li>ZIP code locations: US Census Bureau, 2024 ZCTA Gazetteer.</li>
+        <li>Utilities and rates by ZIP: NREL and OpenEI, U.S. Electric Utility Companies and Rates ({stateRates.year}).</li>
+        <li>Sunshine and temperature: NASA POWER climatology (CERES and MERRA-2).</li>
+        <li>Law records: state legislature sites, plus the news and tracker sources cited on each state page.</li>
+      </ul>
+
+      <h2>Use the data</h2>
+      <p>
+        The law dataset is public domain (CC0). Take it: <a href="/data/states.json">JSON</a>,
+        <a href="/data/states.csv">CSV</a>, or the <a href="/feed.xml">feed of changes</a>. A link back is appreciated but not required.
+      </p>
+      <p>To put the ZIP lookup on your own site, paste this:</p>
+      <pre style="white-space:pre-wrap;overflow-wrap:anywhere;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem;font-size:.85rem"><code>{embed}</code></pre>
+
+      <h2>Fix something</h2>
+      <p>
+        Every state page has an "Edit this record" link that opens the file on GitHub. Change the fact, add the
+        source you read it in, update the date, and open a pull request. Automated checks make sure the record is
+        well formed. If GitHub is not your thing, <a href={`${SITE.repo}/issues/new/choose`}>open an issue</a> and
+        describe what is wrong.
+      </p>
+
+      <h2>What this site is not</h2>
+      <p>
+        It is not legal, electrical, or financial advice, and nobody here is a lawyer or an electrician. It is a
+        careful summary with its sources showing. Before you plug anything in, read your state's law, check with
+        your utility, and follow the manufacturer's instructions.
+      </p>
+    </div>
+  </section>
+</Layout>

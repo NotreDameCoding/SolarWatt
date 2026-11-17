@@ -1,0 +1,67 @@
+{
+  "code": "CO",
+  "name": "Colorado",
+  "slug": "colorado",
+  "status": "legal",
+  "summary": "Colorado has the highest cap in the country: up to 1,920 watts with no utility approval. HOA covenants that unreasonably block these devices are void, with condo-style communities fully covered from January 1, 2027.",
+  "bill": {
+    "number": "HB26-1007",
+    "name": "Improve Customer Use Distributed Energy Resources",
+    "citation": "Session Laws 2026, Chapter 127",
+    "url": "https://leg.colorado.gov/bills/hb26-1007"
+  },
+  "signed_date": "2026-05-07",
+  "effective_date": "2026-08-12",
+  "watt_cap": 1920,
+  "watt_cap_note": "Power supplied to the home's wiring. 1,920 W is 80% of a 20-amp, 120-volt circuit.",
+  "tiers": [
+    {
+      "max_watts": 391,
+      "rule": "Also exempt from the state's solar PV installation requirements."
+    },
+    {
+      "max_watts": 1920,
+      "rule": "Must be listed by a nationally recognized testing laboratory. Some guides say larger systems need a licensed electrician and a dedicated circuit; not confirmed."
+    }
+  ],
+  "certification": "Labeled and listed by a nationally recognized testing laboratory.",
+  "utility": {
+    "approval_required": false,
+    "notification": "None reported.",
+    "fees": "No approval, interconnection paperwork, or fee.",
+    "net_metering": "Not confirmed."
+  },
+  "renters": "The law speaks to property owners and covenants rather than leases. Ask your landlord in writing.",
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": "A covenant that unreasonably prohibits or restricts a device is void. From January 1, 2027 a unit owners' association cannot prohibit one, though it can require you to secure it and you carry the liability and cost.",
+  "hoa_protection": true,
+  "proposed": null,
+  "notes": [
+    "The utility is not liable for damage caused by the device.",
+    "Installation must follow fire and building codes.",
+    "Some trackers and news coverage give January 1, 2027 as the effective date. The legislature lists the act as effective August 12, 2026; January 1, 2027 is when the common-interest-community provision begins."
+  ],
+  "open_questions": [
+    "The 1,920 W and 391 W figures come from news coverage; confirm against the signed act."
+  ],
+  "sources": [
+    {
+      "title": "HB26-1007 bill page, Colorado General Assembly",
+      "url": "https://leg.colorado.gov/bills/hb26-1007",
+      "kind": "primary"
+    },
+    {
+      "title": "Solar Power World: Colorado approves balcony solar",
+      "url": "https://www.solarpowerworldonline.com/2026/05/colorado-approves-balcony-solar-requires-utilities-to-accept-meter-collars/",
+      "kind": "secondary"
+    },
+    {
+      "title": "PlugSolarHub state tracker (updated Oct 20, 2026)",
+      "url": "https://plugsolarhub.com/states-and-regulations",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "mixed",
+  "last_verified": "2026-11-16"
+}
