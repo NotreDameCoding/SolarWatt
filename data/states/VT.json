@@ -1,0 +1,57 @@
+{
+  "code": "VT",
+  "name": "Vermont",
+  "slug": "vermont",
+  "status": "legal",
+  "summary": "Vermont allows plug-in devices with up to 1,200 watts of combined inverter capacity per meter. The device must be certified to UL 3700 (or an equivalent) and your home needs a smart meter.",
+  "bill": {
+    "number": "S.202",
+    "name": "An act relating to plug-in photovoltaic devices",
+    "citation": "Act 149 of 2026 (30 V.S.A. § 256)",
+    "url": "https://legislature.vermont.gov/bill/status/2026/S.202"
+  },
+  "signed_date": "2026-06-16",
+  "effective_date": "2026-07-01",
+  "watt_cap": 1200,
+  "watt_cap_note": "Combined inverter capacity of all plug-in devices on one electric meter.",
+  "tiers": [],
+  "certification": "UL 3700 or an equivalent from another recognized testing laboratory, with anti-islanding. Named in the statute.",
+  "utility": {
+    "approval_required": false,
+    "notification": "Not confirmed.",
+    "fees": "Reported as no approval or fees; not confirmed against the full act.",
+    "net_metering": "Not eligible, and you cannot have both a net-metered system and a plug-in device."
+  },
+  "renters": "A House draft required tenants to notify the landlord, who then has 10 days to respond with reasonable restrictions. The Senate concurred with a tenant-notice amendment; final wording unconfirmed.",
+  "renter_protection": false,
+  "renter_notice_days": 10,
+  "hoa": "The act amends the statute on renewable energy devices (27 V.S.A. § 544); details unconfirmed.",
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [
+    "Only for homes with a smart meter."
+  ],
+  "open_questions": [
+    "Final tenant-notice wording.",
+    "Whether a building or electrical permit is ever required."
+  ],
+  "sources": [
+    {
+      "title": "Act 149 as enacted",
+      "url": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACT149/ACT149%20As%20Enacted.pdf",
+      "kind": "primary"
+    },
+    {
+      "title": "S.202 bill status, Vermont General Assembly",
+      "url": "https://legislature.vermont.gov/bill/status/2026/S.202",
+      "kind": "primary"
+    },
+    {
+      "title": "PlugSolarMath law summary (updated Oct 21, 2026)",
+      "url": "https://plugsolarmath.com/plug-in-solar-laws-by-state/",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "mixed",
+  "last_verified": "2026-11-16"
+}

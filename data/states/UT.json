@@ -1,0 +1,55 @@
+{
+  "code": "UT",
+  "name": "Utah",
+  "slug": "utah",
+  "status": "legal",
+  "summary": "Utah was the first state to legalize plug-in solar. A certified device of up to 1,200 watts can be plugged in without your utility's approval, an interconnection agreement, or any fee.",
+  "bill": {
+    "number": "HB 340",
+    "name": "Solar Power Amendments (2025)",
+    "url": "https://le.utah.gov/~2025/bills/static/HB0340.html"
+  },
+  "signed_date": "2025-03-25",
+  "effective_date": "2025-05-07",
+  "watt_cap": 1200,
+  "watt_cap_note": "Maximum power output of the device. The statute does not say whether this is AC or DC; trackers read it as inverter (AC) output.",
+  "tiers": [],
+  "certification": "Must be certified by a nationally recognized testing laboratory. The bill text references UL 1741 (the inverter standard); it predates UL 3700.",
+  "utility": {
+    "approval_required": false,
+    "notification": "None required.",
+    "fees": "Utilities may not charge fees or require extra equipment.",
+    "net_metering": "Not eligible. Power you export earns no credit."
+  },
+  "renters": "Not addressed. Your lease controls, so ask your landlord in writing.",
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": "Not addressed. HOA or condo rules can still restrict placement.",
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [
+    "The utility is not liable for damage or injury caused by the device."
+  ],
+  "open_questions": [
+    "Signing date (March 25, 2025) comes from secondary sources and is not in the enrolled text."
+  ],
+  "sources": [
+    {
+      "title": "HB 340 bill text, Utah Legislature",
+      "url": "https://le.utah.gov/~2025/bills/static/HB0340.html",
+      "kind": "primary"
+    },
+    {
+      "title": "PlugSolarHub state tracker (updated Oct 20, 2026)",
+      "url": "https://plugsolarhub.com/states-and-regulations",
+      "kind": "secondary"
+    },
+    {
+      "title": "PlugSolarMath law summary (updated Oct 21, 2026)",
+      "url": "https://plugsolarmath.com/plug-in-solar-laws-by-state/",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "mixed",
+  "last_verified": "2026-11-16"
+}

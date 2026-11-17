@@ -1,0 +1,32 @@
+{
+  "code": "KS",
+  "name": "Kansas",
+  "slug": "kansas",
+  "status": "none",
+  "summary": "No plug-in solar law, and we found no bill introduced in 2026.",
+  "bill": null,
+  "signed_date": null,
+  "effective_date": null,
+  "watt_cap": null,
+  "watt_cap_note": null,
+  "tiers": [],
+  "certification": null,
+  "utility": null,
+  "renters": null,
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": null,
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [],
+  "open_questions": [],
+  "sources": [
+    {
+      "title": "PlugSolarHub state tracker (updated Oct 20, 2026)",
+      "url": "https://plugsolarhub.com/states-and-regulations",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "secondary",
+  "last_verified": "2026-11-16"
+}

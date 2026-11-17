@@ -1,0 +1,54 @@
+{
+  "last_checked": "2026-11-16",
+  "note": "A product only moves to \"verified\" when someone links the public certificate or lab directory listing. Maker press releases do not count.",
+  "products": [
+    {
+      "id": "hoymiles-hiflow-pro",
+      "maker": "Hoymiles",
+      "model": "HiFlow Pro",
+      "kind": "Microinverter only",
+      "scope": "component",
+      "ac_watts": "360–500 VA models",
+      "claim": "Announced July 15, 2026 as the first UL 3700 plug-in microinverter. Coverage disagrees on the wording: some say \"certified\", at least one says \"compliant\".",
+      "lab": null,
+      "certificate_url": null,
+      "status": "claimed",
+      "sources": [
+        { "title": "Solar.com: which products have UL 3700 (Sep 22, 2026)", "url": "https://www.solar.com/learn/ul-3700-certification-which-plug-in-solar-products-have-this-safety-stamp/" }
+      ],
+      "affiliate_url": null
+    },
+    {
+      "id": "apsystems-ez1",
+      "maker": "APsystems",
+      "model": "EZ1",
+      "kind": "Microinverter only",
+      "scope": "component",
+      "ac_watts": null,
+      "claim": "The maker says the EZ1 plug-in microinverter is CSA certified to UL 3700. That is CSA Group testing against the UL standard, and it covers the inverter, not a full kit.",
+      "lab": "CSA Group (per maker)",
+      "certificate_url": null,
+      "status": "claimed",
+      "sources": [
+        { "title": "Solar.com: which products have UL 3700 (Sep 22, 2026)", "url": "https://www.solar.com/learn/ul-3700-certification-which-plug-in-solar-products-have-this-safety-stamp/" }
+      ],
+      "affiliate_url": null
+    },
+    {
+      "id": "mango-power-s",
+      "maker": "Mango Power",
+      "model": "Mango Power S",
+      "kind": "Complete kit: four 300 W panels, four microinverters, gateway, mounts",
+      "scope": "system",
+      "ac_watts": "1,200 W of panels",
+      "claim": "Reported to have earned certification for the whole kit, which would make it the only system-level claim so far. The testing lab is not named, and other sources said in August 2026 that no complete system had been certified.",
+      "lab": null,
+      "certificate_url": null,
+      "status": "claimed",
+      "sources": [
+        { "title": "Solar.com: which products have UL 3700 (Sep 22, 2026)", "url": "https://www.solar.com/learn/ul-3700-certification-which-plug-in-solar-products-have-this-safety-stamp/" }
+      ],
+      "affiliate_url": null
+    }
+  ]
+}

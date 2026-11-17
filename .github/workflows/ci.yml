@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Rebuild daily so "starts in N days" and newly effective laws stay current.
+    - cron: '17 9 * * *'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Validate dataset
+        run: npm run validate
+      - name: Unit tests
+        run: npm test
+      - name: Build site
+        run: npm run build

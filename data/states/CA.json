@@ -1,0 +1,58 @@
+{
+  "code": "CA",
+  "name": "California",
+  "slug": "california",
+  "status": "legal_soon",
+  "summary": "California's SB 868 is signed and starts January 1, 2027. Certified devices up to 1,200 watts per dwelling will need no interconnection agreement. It does not override leases or HOA rules.",
+  "bill": {
+    "number": "SB 868",
+    "name": "Plug-in solar (reported as the \"Plug Into the Sun Act\")",
+    "citation": "Chapter 985, Statutes of 2026",
+    "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB868"
+  },
+  "signed_date": "2026-09-30",
+  "effective_date": "2027-01-01",
+  "watt_cap": 1200,
+  "watt_cap_note": "Combined AC output of every plug-in device at one dwelling.",
+  "tiers": [],
+  "certification": "Certified as a system by UL or an equivalent nationally recognized lab, with an anti-backfeed feature. Sources disagree on whether the statute names UL 3700.",
+  "utility": {
+    "approval_required": false,
+    "notification": "Utilities may require a notice of use.",
+    "fees": "No fees or permission.",
+    "net_metering": "No export credit reported."
+  },
+  "renters": "No landlord override. Your lease controls, so get permission in writing.",
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": "No HOA override reported.",
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [
+    "The exemption from interconnection rules expires January 1, 2030 unless extended.",
+    "Local permitting is not addressed; ask your city."
+  ],
+  "open_questions": [
+    "Whether the chaptered text names UL 3700.",
+    "The official short title."
+  ],
+  "sources": [
+    {
+      "title": "SB 868 bill page, California Legislative Information",
+      "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB868",
+      "kind": "primary"
+    },
+    {
+      "title": "pv magazine: Newsom signs California plug-in solar bill",
+      "url": "https://www.pv-magazine.com/2026/10/02/newsom-signs-california-plug-in-solar-bill-establishing-the-nations-largest-balcony-solar-market/",
+      "kind": "secondary"
+    },
+    {
+      "title": "PromptQuorum state guide (updated Oct 31, 2026)",
+      "url": "https://www.promptquorum.com/balcony-solar/balcony-solar-legal-us-states",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "secondary",
+  "last_verified": "2026-11-16"
+}

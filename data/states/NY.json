@@ -1,0 +1,46 @@
+{
+  "code": "NY",
+  "name": "New York",
+  "slug": "new-york",
+  "status": "awaiting_signature",
+  "summary": "The SUNNY Act passed both chambers on May 28, 2026 and is waiting on Governor Hochul, who has until the end of 2026. As of November 16 she has not signed or vetoed it.",
+  "bill": {
+    "number": "S8512-C / A9111-C",
+    "name": "SUNNY Act",
+    "url": "https://www.nysenate.gov/legislation/bills/2025/S8512"
+  },
+  "signed_date": null,
+  "effective_date": null,
+  "watt_cap": 1200,
+  "watt_cap_note": "Proposed.",
+  "tiers": [],
+  "certification": null,
+  "utility": null,
+  "renters": null,
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": null,
+  "hoa_protection": false,
+  "proposed": "If signed: up to 1,200 watts, exempt from interconnection and net-metering rules, notify the utility within 30 days, effective 90 days after signing. It would not require landlords or HOAs to allow devices.",
+  "notes": [],
+  "open_questions": [],
+  "sources": [
+    {
+      "title": "WAMC, Nov 16, 2026: New York lagging on balcony solar",
+      "url": "https://www.wamc.org/podcast/northeastnotebook/2026-11-16/some-say-new-york-is-lagging-behind-on-balcony-solar-panels",
+      "kind": "secondary"
+    },
+    {
+      "title": "E&E News: New York lawmakers approve plug-in solar measure",
+      "url": "https://www.eenews.net/articles/new-york-lawmakers-approve-plug-in-solar-measure/",
+      "kind": "secondary"
+    },
+    {
+      "title": "PromptQuorum state guide (updated Oct 31, 2026)",
+      "url": "https://www.promptquorum.com/balcony-solar/balcony-solar-legal-us-states",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "secondary",
+  "last_verified": "2026-11-16"
+}

@@ -1,0 +1,52 @@
+---
+// A small, self-contained lookup that partner sites can put in an iframe.
+import Layout from '../../layouts/Layout.astro';
+import { SITE } from '../../config.ts';
+---
+<Layout title="Plug-in solar lookup" bare>
+  <meta slot="head" name="robots" content="noindex" />
+  <div style="padding:1rem;max-width:480px">
+    <h1 style="font-size:1.35rem">Can you plug in a solar panel where you live?</h1>
+    <form class="zip-form" id="f" style="margin-top:.75rem" novalidate>
+      <label for="zip" class="skip">ZIP code</label>
+      <input id="zip" inputmode="numeric" maxlength="5" placeholder="ZIP code" autocomplete="postal-code" style="font-size:1.1rem" />
+      <button class="btn" type="submit">Check</button>
+    </form>
+    <p class="form-error" id="err" role="alert" hidden></p>
+    <div id="out" class="verdict" style="margin-top:1rem;padding:1rem" hidden aria-live="polite">
+      <h2 id="headline" style="font-size:1.25rem"></h2>
+      <p id="detail" class="small"></p>
+      <a id="more" class="btn small" target="_blank" rel="noopener">Savings, rules, and sources</a>
+    </div>
+    <p class="small muted" style="margin-top:.75rem">
+      By <a href="/" target="_blank" rel="noopener">{SITE.name}</a>. Open data, not legal advice.
+    </p>
+  </div>
+  <script>
+    import { isZip, lookupZip } from '../../lib/zip.ts';
+    import { todayIso, verdictFor, type StateRecord } from '../../lib/law.ts';
+
+    const $ = (id: string) => document.getElementById(id)!;
+    $('f').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const zip = ($('zip') as HTMLInputElement).value.trim();
+      const fail = (message: string) => { $('err').textContent = message; $('err').hidden = false; $('out').hidden = true; };
+      $('err').hidden = true;
+      if (!isZip(zip)) return fail('Enter a 5-digit US ZIP code.');
+      try {
+        const [info, data] = await Promise.all([lookupZip(zip), fetch('/data/states.json').then((r) => r.json())]);
+        const state = info && (data.states as StateRecord[]).find((s) => s.code === info.state);
+        if (!state) return fail(`We do not have ZIP code ${zip}.`);
+        const v = verdictFor(state, todayIso());
+        $('out').className = `verdict tone-${v.tone}`;
+        $('headline').textContent = v.headline;
+        $('detail').textContent = v.tone === 'yes' || v.tone === 'soon' ? v.detail : state.summary;
+        // Relative, so it resolves against wherever this widget is hosted.
+        ($('more') as HTMLAnchorElement).href = `/?zip=${zip}`;
+        $('out').hidden = false;
+      } catch {
+        fail('Could not load the data. Try again.');
+      }
+    });
+  </script>
+</Layout>

@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Alerts from '../components/Alerts.astro';
+import { states, changelog, stateRates, BUILD_DATE } from '../lib/data.ts';
+import { verdictFor, formatDate, VERIFICATION_LABEL, type StateRecord } from '../lib/law.ts';
+import { SITE } from '../config.ts';
+
+export function getStaticPaths() {
+  return states.map((state) => ({ params: { slug: state.slug }, props: { state } }));
+}
+interface Props { state: StateRecord }
+const { state } = Astro.props;
+const v = verdictFor(state, BUILD_DATE);
+const hasLaw = v.tone === 'yes' || v.tone === 'soon';
+const ver = VERIFICATION_LABEL[state.verification];
+const events = changelog.filter((e) => e.state === state.code);
+const rate = (stateRates.rates as Record<string, number>)[state.code];
+const billLabel = state.bill ? [state.bill.number, state.bill.name].filter(Boolean).join(': ') : null;
+const editUrl = `${SITE.repo}/edit/main/data/states/${state.code}.json`;
+const description = `${v.headline} ${state.summary}`;
+---
+<Layout title={`Is plug-in solar legal in ${state.name}?`} description={description}>
+  <section>
+    <div class="wrap stack">
+      <p class="small"><a href="/states/">All states</a></p>
+      <div class={`verdict tone-${v.tone}`}>
+        <div class="where">{state.name} · {v.label}</div>
+        <h1 style="font-size:clamp(1.8rem,4.5vw,2.8rem)">{v.headline}</h1>
+        <p>{state.summary}</p>
+        {!hasLaw && <p>{v.detail}</p>}
+        <div class="provenance">
+          <span title={ver.explain}>{ver.label}</span>
+          <span>Last checked {formatDate(state.last_verified)}</span>
+          <a href="#sources">Sources</a>
+        </div>
+      </div>
+
+      {hasLaw ? (
+        <dl class="facts">
+          {state.watt_cap && <div><dt>Most you can plug in</dt><dd class="big">{state.watt_cap.toLocaleString('en-US')} watts</dd><dd class="small muted">{state.watt_cap_note}</dd></div>}
+          <div><dt>{v.tone === 'soon' ? 'Starts' : 'In effect since'}</dt><dd class="big">{formatDate(state.effective_date)}</dd>{v.daysUntil != null && <dd class="small muted">{v.daysUntil} days from {formatDate(BUILD_DATE)}</dd>}</div>
+          {state.signed_date && <div><dt>Signed</dt><dd>{formatDate(state.signed_date)}</dd></div>}
+          {state.bill && <div><dt>The law</dt><dd>{state.bill.url ? <a href={state.bill.url}>{billLabel}</a> : billLabel}</dd>{state.bill.citation && <dd class="small muted">{state.bill.citation}</dd>}</div>}
+          {state.utility && <div><dt>Utility approval</dt><dd>{state.utility.approval_required ? 'Required' : 'Not required'}</dd><dd class="small muted">{state.utility.fees}</dd></div>}
+          {state.utility && <div><dt>Telling your utility</dt><dd>{state.utility.notification}</dd></div>}
+          {state.utility && <div><dt>Credit for extra power</dt><dd>{state.utility.net_metering}</dd></div>}
+          {state.certification && <div><dt>Certification</dt><dd>{state.certification}</dd></div>}
+        </dl>
+      ) : (
+        <dl class="facts">
+          <div><dt>The bill</dt><dd>{state.bill ? (state.bill.url ? <a href={state.bill.url}>{billLabel}</a> : billLabel) : 'None introduced in 2026'}</dd></div>
+          {state.proposed && <div><dt>What it would do</dt><dd>{state.proposed}</dd></div>}
+          <div><dt>What applies today</dt><dd>Your utility's interconnection rules. Ask whether it will approve a small plug-in system.</dd></div>
+        </dl>
+      )}
+
+      {state.tiers.length > 0 && (
+        <div class="card">
+          <h2>Size tiers</h2>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Size</th><th>Rule</th></tr></thead>
+              <tbody>{state.tiers.map((t) => <tr><td style="white-space:nowrap">Up to {t.max_watts.toLocaleString('en-US')} W</td><td>{t.rule}</td></tr>)}</tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {hasLaw && (
+        <div class="grid-2">
+          <div class="card">
+            <h2>If you rent</h2>
+            <p>{state.renters}</p>
+            <a class="btn small" href={`/letter/?state=${state.code}&to=landlord`}>Write the landlord letter</a>
+          </div>
+          <div class="card">
+            <h2>HOAs and condos</h2>
+            <p>{state.hoa}</p>
+            <a class="btn small secondary" href={`/letter/?state=${state.code}&to=hoa`}>Write the HOA letter</a>
+          </div>
+        </div>
+      )}
+
+      {state.notes.length > 0 && (
+        <div class="card prose">
+          <h2>Also worth knowing</h2>
+          <ul>{state.notes.map((n) => <li>{n}</li>)}</ul>
+        </div>
+      )}
+
+      {state.open_questions.length > 0 && (
+        <div class="callout prose">
+          <h3>Not yet settled</h3>
+          <p>Sources disagree on these points, or we have not read them in the enacted text. Where it matters we show the more cautious reading.</p>
+          <ul>{state.open_questions.map((q) => <li>{q}</li>)}</ul>
+          <p><a href={editUrl}>Know the answer? Fix this record.</a></p>
+        </div>
+      )}
+
+      <div class="card">
+        <h2>What would it save in {state.name}?</h2>
+        <p class="muted">
+          Sunshine and electricity prices vary a lot within a state, so the estimate is by ZIP code.
+          {rate && <> The average residential price in {state.name} was {rate.toFixed(1)}¢ per kWh in {stateRates.year}.</>}
+        </p>
+        <form class="zip-form" action="/" method="get">
+          <label for="zip" class="skip">ZIP code</label>
+          <input id="zip" name="zip" inputmode="numeric" pattern="\d{5}" maxlength="5" placeholder="ZIP code" required autocomplete="postal-code" />
+          <button class="btn" type="submit">Estimate savings</button>
+        </form>
+      </div>
+
+      {events.length > 0 && (
+        <div>
+          <h2>Timeline</h2>
+          <ol class="timeline">
+            {events.map((e) => (
+              <li class={e.date >= BUILD_DATE ? 'upcoming' : undefined}><time datetime={e.date}>{formatDate(e.date)}</time>{e.title}</li>
+            ))}
+          </ol>
+        </div>
+      )}
+
+      <div id="sources" class="prose">
+        <h2>Sources</h2>
+        <ul>
+          {state.sources.map((s) => (
+            <li><a href={s.url}>{s.title}</a> <span class="small muted">({s.kind === 'primary' ? 'official' : 'news or tracker'})</span></li>
+          ))}
+        </ul>
+        <p class="small muted">
+          {ver.explain} Last checked {formatDate(state.last_verified)}.
+          <a href={editUrl}>Edit this record on GitHub</a> or <a href={`${SITE.repo}/issues/new/choose`}>report an error</a>.
+        </p>
+      </div>
+
+      <Alerts state={state.code} heading={`Get told when ${state.name} changes`} />
+    </div>
+  </section>
+</Layout>

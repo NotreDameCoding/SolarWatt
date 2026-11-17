@@ -1,0 +1,22 @@
+name: Correct a state's law record
+description: A date, cap, rule, or status on a state page is wrong or out of date.
+labels: [data, law]
+body:
+  - type: input
+    id: state
+    attributes: { label: State }
+    validations: { required: true }
+  - type: textarea
+    id: wrong
+    attributes: { label: What does the site say now? }
+    validations: { required: true }
+  - type: textarea
+    id: right
+    attributes: { label: What should it say? }
+    validations: { required: true }
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: A link to the enacted law or the legislature's page is best. News stories are accepted but marked as unconfirmed.
+    validations: { required: true }

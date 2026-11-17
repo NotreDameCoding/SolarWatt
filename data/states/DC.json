@@ -1,0 +1,37 @@
+{
+  "code": "DC",
+  "name": "District of Columbia",
+  "slug": "district-of-columbia",
+  "status": "in_progress",
+  "summary": "Legislation has been introduced and is reported to be advancing. We have not confirmed a bill number.",
+  "bill": null,
+  "signed_date": null,
+  "effective_date": null,
+  "watt_cap": null,
+  "watt_cap_note": null,
+  "tiers": [],
+  "certification": null,
+  "utility": null,
+  "renters": null,
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": null,
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [],
+  "open_questions": [],
+  "sources": [
+    {
+      "title": "Sol Country legislation tracker (Sep 2026)",
+      "url": "https://solcountry.com/tracker",
+      "kind": "secondary"
+    },
+    {
+      "title": "PlugSolarMath law summary (updated Oct 21, 2026)",
+      "url": "https://plugsolarmath.com/plug-in-solar-laws-by-state/",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "secondary",
+  "last_verified": "2026-11-16"
+}

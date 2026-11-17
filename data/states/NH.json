@@ -1,0 +1,57 @@
+{
+  "code": "NH",
+  "name": "New Hampshire",
+  "slug": "new-hampshire",
+  "status": "legal_soon",
+  "summary": "New Hampshire's law is signed and starts January 1, 2027: one system of up to 1,200 watts AC per meter, with no utility approval or fees. Until then, normal interconnection rules apply.",
+  "bill": {
+    "number": "SB 540",
+    "name": null,
+    "citation": "Chapter 262, Laws of 2026",
+    "url": "https://legiscan.com/NH/bill/SB540/2026"
+  },
+  "signed_date": "2026-07-02",
+  "effective_date": "2027-01-01",
+  "watt_cap": 1200,
+  "watt_cap_note": "AC inverter output per metered customer, one system per meter.",
+  "tiers": [],
+  "certification": "Building-code provisions wait on a nationally recognized standard (UL 3700) being certified by the Department of Energy.",
+  "utility": {
+    "approval_required": false,
+    "notification": "Not established in the sources we found.",
+    "fees": "No utility approval or added fees.",
+    "net_metering": "Not confirmed."
+  },
+  "renters": "Not addressed in the sources we found. Ask your landlord in writing.",
+  "renter_protection": false,
+  "renter_notice_days": null,
+  "hoa": "Not addressed in the sources we found.",
+  "hoa_protection": false,
+  "proposed": null,
+  "notes": [
+    "Devices must shut off automatically during a power outage."
+  ],
+  "open_questions": [
+    "One source says parts of the act took effect on signing; most say January 1, 2027.",
+    "Signing date is reported as July 2 or July 3, 2026."
+  ],
+  "sources": [
+    {
+      "title": "New Hampshire Bulletin: NH joins states with plug-in solar laws",
+      "url": "https://www.newsfromthestates.com/article/new-hampshire-joins-growing-contingent-states-laws-plug-solar",
+      "kind": "secondary"
+    },
+    {
+      "title": "Clean Energy NH: plug-in solar is coming",
+      "url": "https://www.cleanenergynh.org/post/all-solar-big-and-small-plug-in-solar-is-coming-to-new-hampshire",
+      "kind": "secondary"
+    },
+    {
+      "title": "PlugSolarHub state tracker (updated Oct 20, 2026)",
+      "url": "https://plugsolarhub.com/states-and-regulations",
+      "kind": "secondary"
+    }
+  ],
+  "verification": "secondary",
+  "last_verified": "2026-11-16"
+}

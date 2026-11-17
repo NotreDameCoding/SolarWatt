@@ -1,0 +1,24 @@
+name: Add or verify a certified product
+description: You found a public certificate or lab listing for a plug-in solar product.
+labels: [data, products]
+body:
+  - type: input
+    id: product
+    attributes: { label: Maker and exact model number }
+    validations: { required: true }
+  - type: input
+    id: lab
+    attributes: { label: Testing lab, description: "UL, CSA, Intertek/ETL, TUV, ..." }
+    validations: { required: true }
+  - type: input
+    id: certificate
+    attributes:
+      label: Link to the certificate or lab directory listing
+      description: Press releases and product pages do not count.
+    validations: { required: true }
+  - type: dropdown
+    id: scope
+    attributes:
+      label: What does the certificate cover?
+      options: [The whole kit, The inverter only, Not sure]
+    validations: { required: true }
