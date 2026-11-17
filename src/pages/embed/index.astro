@@ -24,9 +24,11 @@ import { SITE } from '../../config.ts';
   </div>
   <script>
     import { isZip, lookupZip } from '../../lib/zip.ts';
+    import { basePath } from '../../lib/base.ts';
     import { todayIso, verdictFor, type StateRecord } from '../../lib/law.ts';
 
     const $ = (id: string) => document.getElementById(id)!;
+    const BASE = basePath();
     $('f').addEventListener('submit', async (event) => {
       event.preventDefault();
       const zip = ($('zip') as HTMLInputElement).value.trim();
@@ -34,7 +36,7 @@ import { SITE } from '../../config.ts';
       $('err').hidden = true;
       if (!isZip(zip)) return fail('Enter a 5-digit US ZIP code.');
       try {
-        const [info, data] = await Promise.all([lookupZip(zip), fetch('/data/states.json').then((r) => r.json())]);
+        const [info, data] = await Promise.all([lookupZip(zip, BASE), fetch(`${BASE}data/states.json`).then((r) => r.json())]);
         const state = info && (data.states as StateRecord[]).find((s) => s.code === info.state);
         if (!state) return fail(`We do not have ZIP code ${zip}.`);
         const v = verdictFor(state, todayIso());
@@ -42,7 +44,7 @@ import { SITE } from '../../config.ts';
         $('headline').textContent = v.headline;
         $('detail').textContent = v.tone === 'yes' || v.tone === 'soon' ? v.detail : state.summary;
         // Relative, so it resolves against wherever this widget is hosted.
-        ($('more') as HTMLAnchorElement).href = `/?zip=${zip}`;
+        ($('more') as HTMLAnchorElement).href = `${BASE}?zip=${zip}`;
         $('out').hidden = false;
       } catch {
         fail('Could not load the data. Try again.');

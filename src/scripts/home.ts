@@ -2,6 +2,7 @@
 // in the browser against static JSON; nothing the visitor types is sent anywhere.
 
 import { isZip, lookupZip, pickRate, type ZipInfo } from '../lib/zip.ts';
+import { basePath } from '../lib/base.ts';
 import {
   circuitLoad, effectiveStatus, formatDate, todayIso, verdictFor, VERIFICATION_LABEL, type StateRecord,
 } from '../lib/law.ts';
@@ -18,12 +19,13 @@ const fmt = (n: number, digits = 0) => n.toLocaleString('en-US', { maximumFracti
 
 const stateRates: Record<string, number> = JSON.parse($('state-rates').textContent!);
 const rateYear: number = JSON.parse($('rate-year').textContent!);
+const BASE = basePath();
 const KIT_PRICE: Record<string, number> = { 400: 450, 800: 800, 1200: 1200, 1920: 1900 };
 
 let statesPromise: Promise<StateRecord[]> | null = null;
 let gridPromise: Promise<SolarGrid> | null = null;
-const loadStates = () => (statesPromise ??= fetch('/data/states.json').then((r) => r.json()).then((d) => d.states));
-const loadGrid = () => (gridPromise ??= fetch('/solar-grid.json').then((r) => r.json()).then((d) => d.cells));
+const loadStates = () => (statesPromise ??= fetch(`${BASE}data/states.json`).then((r) => r.json()).then((d) => d.states));
+const loadGrid = () => (gridPromise ??= fetch(`${BASE}solar-grid.json`).then((r) => r.json()).then((d) => d.cells));
 
 let current: { info: ZipInfo; state: StateRecord; climate: Climate | null } | null = null;
 let costEdited = false;
@@ -44,7 +46,7 @@ async function run(zip: string, scroll: boolean) {
   zipInput.removeAttribute('aria-invalid');
   if (!isZip(zip)) return showError('Enter a 5-digit US ZIP code.');
 
-  const [info, states, grid] = await Promise.all([lookupZip(zip), loadStates(), loadGrid()]).catch(() => [null, null, null] as const);
+  const [info, states, grid] = await Promise.all([lookupZip(zip, BASE), loadStates(), loadGrid()]).catch(() => [null, null, null] as const);
   if (!states || !grid) return showError('Could not load the data. Check your connection and try again.');
   if (!info) return showError(`We do not have ZIP code ${zip}. Check the number, or pick your state from the map below.`);
   const state = states.find((s) => s.code === info.state);
@@ -74,7 +76,7 @@ function renderVerdict() {
   $('v-verification').textContent = ver.label;
   $('v-verification').title = ver.explain;
   $('v-checked').textContent = `Last checked ${formatDate(state.last_verified)}`;
-  $<HTMLAnchorElement>('v-link').href = `/${state.slug}/`;
+  $<HTMLAnchorElement>('v-link').href = `${BASE}${state.slug}/`;
 
   const facts = $('facts');
   facts.replaceChildren();
@@ -248,16 +250,16 @@ function renderSteps() {
   };
   if (v.tone === 'yes' || v.tone === 'soon') {
     if (v.tone === 'soon') step(`Wait for ${formatDate(state.effective_date)}. You can buy a kit now, but plugging it in before then is not covered by the new law.`);
-    step(`Choose a kit of ${fmt(state.watt_cap ?? 1200)} watts or less that carries the certification ${state.name} asks for.`, ['/products/', 'See which products are certified.']);
+    step(`Choose a kit of ${fmt(state.watt_cap ?? 1200)} watts or less that carries the certification ${state.name} asks for.`, [`${BASE}products/`, 'See which products are certified.']);
     if (state.utility?.notification && !/^none/i.test(state.utility.notification)) step(`Tell your utility: ${state.utility.notification}`);
     step(state.renter_protection
       ? 'Renting? The law is on your side, but you still have to give written notice.'
-      : 'Renting, or in an HOA or condo? Get permission in writing before you buy.', ['/letter/?state=' + state.code, 'Write the letter.']);
+      : 'Renting, or in an HOA or condo? Get permission in writing before you buy.', [`${BASE}letter/?state=${state.code}`, 'Write the letter.']);
     step('Mount it so it cannot fall, and plug it into an outlet on a circuit without heavy appliances.');
   } else {
     step('Call your utility and ask whether it approves small plug-in solar under its interconnection rules. A few do.');
     step('Want it anyway? A portable power station charged by a panel never touches your wiring, so no approval is needed.');
-    step(v.tone === 'wait' ? 'Follow the bill. We record every vote and signature.' : 'Laws are moving fast: about 30 states saw bills in 2026.', [`/${state.slug}/`, `${state.name} details.`]);
+    step(v.tone === 'wait' ? 'Follow the bill. We record every vote and signature.' : 'Laws are moving fast: about 30 states saw bills in 2026.', [`${BASE}${state.slug}/`, `${state.name} details.`]);
   }
 }
 
